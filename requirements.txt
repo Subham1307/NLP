@@ -1,0 +1,6 @@
+pdf2image
+pytesseract
+mistralai
+python-dotenv
+Pillow
+opencv-python

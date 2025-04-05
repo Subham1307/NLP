@@ -5,7 +5,7 @@ from mistralai import Mistral
 from dotenv import load_dotenv
 load_dotenv()
 
-# === CONFIGURATION ===
+# CONFIGURATION
 PDF_PATH = "data/ehhn104.pdf"  # PDF file path
 RAW_OUTPUT_DIR = "raw_text"  # Directory to store raw extracted text
 REFINED_OUTPUT_DIR = "refined_text"  # Directory to store refined text
@@ -20,11 +20,11 @@ api_key = os.environ["MISTRAL_API_KEY"]
 model = "mistral-large-latest"
 client = Mistral(api_key=api_key)
 
-# === STEP 1: Convert PDF to Images ===
+#  STEP 1: Convert PDF to Images 
 print("Converting PDF to Images...")
 images = convert_from_path(PDF_PATH)
 
-# === STEP 2: Extract and Refine Text Page by Page ===
+#  STEP 2: Extract and Refine Text Page by Page 
 print("Extracting and Refining Text Using OCR...")
 
 custom_config = r'--oem 3 --psm 6 -l hin'
@@ -40,9 +40,11 @@ for i, img in enumerate(images):
     with open(raw_filename, "w", encoding="utf-8") as f:
         f.write(extracted_text)
     
-    # Refine text using Mistral AI to retain only the main story and title, removing decorative text and unwanted characters
-    prompt = ("Extract only the main story and title from this text, removing any decorative text, captions, page numbers, "
+    # Refine text using Mistral AI 
+    prompt = ("Extract only the main story and title (if it is there) from this text, removing any decorative text, captions, page numbers, "
               "special characters, and formatting errors while keeping the correct sentence flow. "
+              "Do not add anything from your own knowledge."
+              "Only return the cleaned-up story text."
               "For example, if the given text is:\n"
               "इन घंटियों को बनाना ही सबसे ज़्यादा मुश्किल था। केशव जानता था कि एक\n"
               "दिन तो ऐसा ज़रूर आएगा जब वह बहुत बारीक जालियाँ, महीन-नफ़ीस\n"
